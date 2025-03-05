@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jadwal Nyantai Basyar</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        h2 {
+            margin-bottom: 5px;
+            color: #333;
+        }
+        .clock {
+            width: 500px;
+            height: 500px;
+            border: 5px solid #2c3e50;
+            border-radius: 50%;
+            position: relative;
+            background: white;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            animation: pulse 2s infinite alternate;
+        }
+   
+         @keyframes pulse {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.02); }
+         }
+         
+        .hand {
+            position: absolute;
+            background: black;
+            top: 50%;
+            left: 50%;
+            transform-origin: center bottom;
+        }
+        .hour-hand {
+            width: 6px;
+            height: 120px;
+            margin-top: -120px;
+            background: black;
+        }
+        .minute-hand {
+            width: 4px;
+            height: 160px;
+            margin-top: -160px;
+            background: gray;
+        }
+        .second-hand {
+            width: 2px;
+            height: 180px;
+            margin-top: -180px;
+            background: red;
+        }
+        .center {
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            background: black;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+        }
+        .number {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 20px;
+            font-weight: bold;
+            text-align: center;
+        }
+        .schedule div {
+            position: absolute;
+            font-size: 14px;
+            background-color: rgba(255,255,255,0.8);
+            border-radius: 5px;
+            padding: 5px;
+            max-width: 100px;
+        }
+        .number-12 { top: 10px; left: 50%; transform: translateX(-50%); }
+        .number-1 { top: 50px; right: 140px; }
+        .number-2 { top: 100px; right: 60px; }
+        .number-3 { right: 10px; top: 50%; transform: translateY(-50%); }
+        .number-4 { bottom: 137px; right: 60px; }
+        .number-5 { bottom: 50px; right: 140px; }
+        .number-6 { bottom: 10px; left: 50%; transform: translateX(-50%); }
+        .number-7 { bottom: 50px; left: 140px; }
+        .number-8 { bottom: 100px; left: 60px; }
+        .number-9 { left: 10px; top: 50%; transform: translateY(-50%); }
+        .number-10 { top: 120px; left: 60px; }
+        .number-11 { top: 50px; left: 140px; }
+        
+        .activity-12 { top: 40px; left: 50%; transform: translateX(-50%); }
+        .activity-1 { top: 80px; right: 120px; }
+        .activity-2 { top: 140px; right: 80px; }
+        .activity-3 { right: 40px; top: 50%; transform: translateY(-50%); }
+        .activity-4 { bottom: 145px; right: 87px; }
+        .activity-5 { bottom: 80px; right: 120px; }
+        .activity-6 { bottom: 40px; left: 50%; transform: translateX(-50%); }
+        .activity-7 { bottom: 80px; left: 120px; }
+        .activity-8 { bottom: 140px; left: 80px; }
+        .activity-9 { left: 40px; top: 50%; transform: translateY(-50%); }
+        .activity-10 { top: 150px; left: 80px; }
+        .activity-11 { top: 90px; left: 129px; }
+    </style>
+</head>
+<body>
+    <h2>Jadwal Kegiatan Basyar</h2>
+    <p><i>Inspired by Bae Seok Ryu - Love Next Door</i></p>
+    <div class="clock">
+        <div class="hand hour-hand" id="hour"></div>
+        <div class="hand minute-hand" id="minute"></div>
+        <div class="hand second-hand" id="second"></div>
+        <div class="center"></div>
+        
+        <div class="number number-12">12</div>
+        <div class="number number-1">1</div>
+        <div class="number number-2">2</div>
+        <div class="number number-3">3</div>
+        <div class="number number-4">4</div>
+        <div class="number number-5">5</div>
+        <div class="number number-6">6</div>
+        <div class="number number-7">7</div>
+        <div class="number number-8">8</div>
+        <div class="number number-9">9</div>
+        <div class="number number-10">10</div>
+        <div class="number number-11">11</div>
+        
+        <div class="schedule">
+            <div class="activity-12">Solay Dzuhur</div>
+            <div class="activity-1">Istirahat</div>
+            <div class="activity-2">Olahraga</div>
+            <div class="activity-3">Solat Ashar</div>
+            <div class="activity-4">Sahur</div>
+            <div class="activity-5">Solat Subuh</div>
+            <div class="activity-6">Solat Maghrib</div>
+            <div class="activity-7">Solat Isya + Tarawih</div>
+            <div class="activity-8">Ngoding</div>
+            <div class="activity-9">Mengerjakan pr sekolah </div>
+            <div class="activity-10">Tadarus</div>
+            <div class="activity-11">Tidur</div>
+        </div>
+    </div>
+    <script>
+        function updateClock() {
+            const now = new Date();
+            const hours = now.getHours();
+            const minutes = now.getMinutes();
+            const seconds = now.getSeconds();
+
+            const hourDeg = (hours % 12) * 30 + minutes * 0.5;
+            const minuteDeg = minutes * 6;
+            const secondDeg = seconds * 6;
+
+            document.getElementById("hour").style.transform = `rotate(${hourDeg}deg)`;
+            document.getElementById("minute").style.transform = `rotate(${minuteDeg}deg)`;
+            document.getElementById("second").style.transform = `rotate(${secondDeg}deg)`;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+    </script>
+</body>
+</html>
